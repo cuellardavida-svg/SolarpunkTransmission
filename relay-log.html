@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solarpunk Transmission // Relay Log</title>
+  <style>
+    :root {
+      --bg: #0a0f0a;
+      --panel: #0d1610;
+      --fg: #d8ffe0;
+      --muted: #89b79a;
+      --accent: #7df9a7;
+      --warn: #ffd166;
+      --border: #2f5f43;
+      --danger: #ff6b6b;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: "Courier New", Courier, monospace;
+      line-height: 1.65;
+      display: grid;
+      place-items: start center;
+      padding: 1rem;
+    }
+
+    main {
+      width: min(920px, 100%);
+      border: 2px solid var(--border);
+      background: var(--panel);
+      padding: 1.5rem;
+      box-shadow: 0 0 0 4px rgba(125, 249, 167, 0.08);
+      margin-top: 1rem;
+    }
+
+    h1 {
+      margin: 0 0 0.3rem;
+      color: var(--accent);
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      letter-spacing: 0.04em;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 1.4rem;
+      border-left: 3px solid var(--border);
+      padding-left: 0.6rem;
+    }
+
+    section {
+      border-top: 1px dashed var(--border);
+      padding: 1rem 0 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      margin: 0 0 0.7rem;
+      font-size: 0.9rem;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+    }
+
+    p {
+      font-size: 0.88rem;
+      margin: 0.5rem 0;
+    }
+
+    .accord {
+      color: var(--warn);
+      font-size: 0.82rem;
+      border: 1px solid rgba(255, 209, 102, 0.25);
+      background: rgba(255, 209, 102, 0.04);
+      padding: 0.65rem 0.8rem;
+      margin: 0.75rem 0;
+    }
+
+    .accord strong {
+      display: block;
+      margin-bottom: 0.3rem;
+      letter-spacing: 0.04em;
+    }
+
+    label {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 140px;
+      background: #020802;
+      border: 1px solid var(--border);
+      color: var(--fg);
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      padding: 0.6rem 0.75rem;
+      resize: vertical;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent);
+    }
+
+    textarea::placeholder {
+      color: var(--border);
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-style: italic;
+      margin-top: 0.4rem;
+    }
+
+    footer {
+      border-top: 1px dashed var(--border);
+      padding-top: 1rem;
+      margin-top: 0.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    a.sys {
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 0.4rem 0.6rem;
+      font-size: 0.85rem;
+      display: inline-block;
+    }
+
+    a.sys:hover,
+    a.sys:focus-visible {
+      color: var(--accent);
+      border-color: var(--accent);
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+  <main aria-labelledby="log-title">
+    <h1 id="log-title">OPERATOR RELAY LOG</h1>
+    <p class="subtitle">
+      State is not stored by machine. What you hold, you keep.
+    </p>
+
+    <!-- Design accord -->
+    <section aria-labelledby="accord-heading">
+      <h2 id="accord-heading">// ACCORD §8 — MEMORY BY DESIGN</h2>
+      <div class="accord">
+        <strong>TRANSMISSION PROTOCOL — END OF CYCLE:</strong>
+        This relay does not retain operator state between sessions.
+        No visit history. No passcode archive. No queued notes.
+        When you leave, the record leaves with you.
+      </div>
+      <p>
+        This is not a limitation. It is the design.
+      </p>
+      <p>
+        The solarpunk network runs on transparency and distributed trust.
+        Centralized memory creates dependency; dependency creates control.
+        Logging is the operator's responsibility — done by hand, held in your own keeping.
+      </p>
+      <p>
+        Write down what matters. Carry it forward yourself.
+      </p>
+    </section>
+
+    <!-- Session scratch pad -->
+    <section aria-labelledby="scratch-heading">
+      <h2 id="scratch-heading">// SESSION SCRATCH PAD</h2>
+      <label for="scratch">Draft notes while the session is live:</label>
+      <textarea
+        id="scratch"
+        name="scratch"
+        placeholder="Observations, passcodes, route notes… cleared when you leave."
+        spellcheck="false"
+        autocomplete="off"
+      ></textarea>
+      <p class="note">This field is not saved. Leaving this page clears it. Copy anything you want to keep.</p>
+    </section>
+
+    <footer>
+      <a class="sys" href="chapter1/c1-start.html">[ Chapter 1 ]</a>
+      <a class="sys" href="passcodes.html">[ Passcodes ]</a>
+      <a class="sys" href="index.html">[ Cold Boot ]</a>
+    </footer>
+  </main>
+</body>
+</html>
