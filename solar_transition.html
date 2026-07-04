@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GNN Terminal: Osha Honda Mansa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #051105;
+            --text-main: #33ff33;
+            --text-dim: #1a801a;
+            --highlight: #ffcc00;
+            --extractivist: #ff3333;
+            --regenerative: #33ffff;
+            --border: #33ff33;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Press Start 2P', monospace;
+            font-size: 14px;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        #crt-container {
+            width: 100%;
+            max-width: 800px;
+            border: 4px solid var(--border);
+            padding: 20px;
+            background: #020802;
+            box-shadow: 0 0 20px rgba(51, 255, 51, 0.2), inset 0 0 20px rgba(51, 255, 51, 0.1);
+            position: relative;
+        }
+
+        /* Scanline effect */
+        #crt-container::after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 2px dashed var(--border);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 12px;
+        }
+
+        .stat-box { display: flex; flex-direction: column; }
+        .stat-label { color: var(--text-dim); font-size: 10px; }
+        
+        #scene-image-placeholder {
+            width: 100%;
+            height: 150px;
+            border: 2px solid var(--text-dim);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
+            color: var(--text-dim);
+            background: #000;
+            text-align: center;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        #dialogue-box {
+            min-height: 120px;
+            margin-bottom: 20px;
+        }
+
+        #choices-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .choice-btn {
+            background: #000;
+            color: var(--text-main);
+            border: 2px solid var(--border);
+            padding: 15px;
+            font-family: inherit;
+            font-size: 12px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            z-index: 3;
+        }
+
+        .choice-btn:hover {
+            background: var(--text-main);
+            color: #000;
+        }
+
+        .choice-btn:disabled {
+            border-color: #555;
+            color: #555;
+            cursor: not-allowed;
+        }
+        
+        .choice-btn:disabled:hover {
+            background: #000;
+        }
+
+        #nav-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            background: transparent;
+            color: var(--highlight);
+            border: 2px solid var(--highlight);
+            padding: 8px 12px;
+            font-family: inherit;
+            font-size: 10px;
+            cursor: pointer;
+            z-index: 3;
+        }
+        
+        .nav-btn:hover {
+            background: var(--highlight);
+            color: #000;
+        }
+
+        /* Codex Modal */
+        #codex-modal {
+            display: none;
+            position: absolute;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            background: rgba(0, 0, 0, 0.95);
+            border: 2px solid var(--highlight);
+            z-index: 10;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .codex-entry {
+            border-bottom: 1px dashed var(--text-dim);
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        .codex-title { color: var(--highlight); margin-bottom: 5px;}
+        .codex-desc { font-size: 10px; line-height: 1.4;}
+
+        .hidden { display: none !important; }
+        .glitch { animation: glitch 0.2s linear infinite; color: var(--extractivist); }
+
+        @keyframes glitch {
+            2%, 64% { transform: translate(2px,0) skew(0deg); }
+            4%, 60% { transform: translate(-2px,0) skew(0deg); }
+            62% { transform: translate(0,0) skew(5deg); }
+        }
+        
+        #notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--highlight);
+            color: #000;
+            padding: 10px 20px;
+            font-size: 12px;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="notification">Notification</div>
+
+    <div id="crt-container">
+        <!-- Top Stats Bar -->
+        <header>
+            <div class="stat-box">
+                <span class="stat-label">EXP</span>
+                <span id="ui-xp">0</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-label">KARMA</span>
+                <span id="ui-karma">50</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-label">ALIGNMENT</span>
+                <span id="ui-alignment">Neutral</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-label">TERMS UNLOCKED</span>
+                <span id="ui-terms">0/10</span>
+            </div>
+        </header>
+
+        <!-- Visual Anchor -->
+        <div id="scene-image-placeholder">
+            [ GNN TECH & SOCIETY DESK // TERMINAL A-1 ]
+        </div>
+
+        <!-- Main Text Area -->
+        <div id="dialogue-box"></div>
+
+        <!-- Interaction Area -->
+        <div id="choices-container"></div>
+
+        <!-- Menu / Tools -->
+        <div id="nav-buttons">
+            <button class="nav-btn" onclick="toggleCodex()">[ VIEW CODEX ]</button>
+        </div>
+
+        <!-- Codex Overlay -->
+        <div id="codex-modal">
+            <h2 style="color:var(--highlight); margin-top:0;">GNN SECURE CODEX (OSHA HONDA MANSA)</h2>
+            <p style="font-size:10px; color:var(--text-dim);">"From the forest itself comes the handle for the axe."</p>
+            <div id="codex-list"></div>
+            <button class="nav-btn" style="margin-top:20px;" onclick="toggleCodex()">[ CLOSE ]</button>
+        </div>
+    </div>
+
+<script>
+    /* =======================================================
+       1. GAME DATA & LORE (From Provided Spreadsheet)
+       ======================================================= */
+    
+    // The dictionary of terms to be discovered. 
+    const dictionary = {
+        "Rimaykullayki": { word: "Rimaykullayki", domain: "Solarpunk", energy: "Warm greeting", desc: "Open door formed by two leaves and a small sun above it.", mudra: "Anjali mudra.", asana: "Mountain Pose." },
+        "Yaku": { word: "Yaku", domain: "Solarpunk", energy: "Water, flow", desc: "Wave line feeding a seed.", mudra: "Cupped hands.", asana: "Child’s Pose." },
+        "Mana": { word: "Mana", domain: "Solarpunk", energy: "Boundary", desc: "Closed gate circle with a single horizontal bar.", mudra: "Palm-out stop gesture.", asana: "Mountain Pose." },
+        "Mycelium": { word: "Mycelium", domain: "Regenerative agriculture", energy: "Hidden network", desc: "Fine branching lattice under a seed.", mudra: "Interlaced fingers.", asana: "Seated Breath Pose." },
+        "Topsoil": { word: "Topsoil", domain: "Regenerative agriculture", energy: "Fertile surface layer", desc: "Thin layered band with tiny root threads.", mudra: "Hands flat and parallel.", asana: "Mountain Pose." },
+        "Sulpayki": { word: "Sulpayki", domain: "Solarpunk", energy: "Gratitude", desc: "Flower-cup receiving a drop of water.", mudra: "Palms together, slightly lowered.", asana: "Seated Easy Pose with bow." },
+        "Resilience": { word: "Resilience", domain: "Regenerative agriculture", energy: "Recovering strength", desc: "Bent stem springing upright.", mudra: "Fist softens open at chest.", asana: "Tree Pose." },
+        "Rotational grazing": { word: "Rotational grazing", domain: "Regenerative agriculture", energy: "Renewal through movement", desc: "Circular path with a hoof mark and grass tuft.", mudra: "One hand tracing a loop.", asana: "Warrior II." },
+        "Allillanmi": { word: "Allillanmi", domain: "Solarpunk", energy: "Steady well-being", desc: "Nested circles with a calm center dot.", mudra: "One hand heart, one hand belly.", asana: "Staff Pose." },
+        "Carbon sink": { word: "Carbon sink", domain: "Regenerative agriculture", energy: "Sequestration", desc: "Root net pulling a dot downward.", mudra: "Hands pressing gently down.", asana: "Standing Forward Fold." }
+    };
+
+    /* =======================================================
+       2. GAME STATE MANAGEMENT
+       ======================================================= */
+    
+    let state = {
+        xp: 0,
+        karma: 50, // 0 = Corrupted, 100 = Enlightened
+        alignmentScore: 0, // Negative = Extractivist, Positive = Regenerative
+        unlockedTerms: [],
+        currentNode: 'boot_sequence',
+        textIsTyping: false
+    };
+
+    // Calculate alignment string based on score
+    function getAlignmentString() {
+        if (state.alignmentScore < -5) return "<span style='color:var(--extractivist)'>Extractivist Drone</span>";
+        if (state.alignmentScore < 0) return "<span style='color:#ff9999'>Corporate Leaning</span>";
+        if (state.alignmentScore > 5) return "<span style='color:var(--regenerative)'>Solarpunk Activist</span>";
+        if (state.alignmentScore > 0) return "<span style='color:#99ff99'>Regenerative Leaning</span>";
+        return "Neutral";
+    }
+
+    // Update UI elements
+    function updateUI() {
+        document.getElementById('ui-xp').innerText = state.xp;
+        document.getElementById('ui-karma').innerText = state.karma;
+        document.getElementById('ui-alignment').innerHTML = getAlignmentString();
+        document.getElementById('ui-terms').innerText = `${state.unlockedTerms.length}/${Object.keys(dictionary).length}`;
+    }
+
+    function showNotification(msg) {
+        const notif = document.getElementById('notification');
+        notif.innerText = msg;
+        notif.style.opacity = 1;
+        setTimeout(() => { notif.style.opacity = 0; }, 3000);
+    }
+
+    function unlockTerm(termKey) {
+        if (!state.unlockedTerms.includes(termKey) && dictionary[termKey]) {
+            state.unlockedTerms.push(termKey);
+            state.xp += 25;
+            showNotification(`Lore Unlocked: ${termKey} (+25 XP)`);
+            updateCodexUI();
+            updateUI();
+        }
+    }
+
+    /* =======================================================
+       3. NARRATIVE SCENE GRAPH (Choose your own adventure)
+       ======================================================= */
+    
+    const scenes = {
+        'boot_sequence': {
+            art: "[ GNN TECH & SOCIETY DESK // TERMINAL A-1 ]<br>User: Staff Researcher<br>Location: Salt Lake City Dateline",
+            text: "System booting...\nConnecting to Global NewsNetwork mainframes...\nAuthentication accepted. Welcome to the Technology & Society Desk.\n\nMemo from Editor-in-Chief (Mr. C): 'Remember our directive. Honesty over speed. Ethics as foundation. Filter the noise.'",
+            choices: [
+                { text: "Acknowledge directive and log into the daily queue.", next: 'daily_queue', effect: () => { state.xp += 10; } },
+                { text: "[SysAdmin] Bypass daily queue and inspect hidden directories.", next: 'hidden_directory', effect: () => { state.karma += 5; } }
+            ]
+        },
+        'daily_queue': {
+            art: "[ GNN INBOX // TICKET #404 ]<br>Subject: Data Leak in Kirameki Agricultural Sector",
+            text: "Your first ticket is a standard corporate data scrub. The Kirameki think tank is reporting an anomaly in their server logs. A sub-routine is redirecting processing power away from their 'linear accounting' ledgers and routing it toward... local community weather nodes.",
+            choices: [
+                { text: "Run standard GNN corporate protocol. Delete the anomaly and secure the ledger.", next: 'corporate_path_1', effect: () => { state.alignmentScore -= 2; state.karma -= 10; state.xp += 20; } },
+                { text: "Analyze the anomaly's code structure first. Who wrote this?", next: 'investigate_anomaly', effect: () => { state.alignmentScore += 1; state.xp += 15; } }
+            ]
+        },
+        'hidden_directory': {
+            art: "[ DIRECTORY: OSHA HONDA MANSA ]<br>Encryption Level: Uta Hagen Cipher",
+            text: "You bypass the main feed. Beneath the GNN corporate shell, you find a hidden partition. It's labeled 'Osha Honda Mansa'. A text file blinks on the screen: 'This newsletter is our V for Vendetta mask—the fiction that discloses the fact.'\n\nA greeting protocol executes...",
+            choices: [
+                { text: "Accept the greeting.", next: 'learn_rimaykullayki', effect: null }
+            ]
+        },
+        'learn_rimaykullayki': {
+            art: "[ SUB-ROUTINE EXECUTING ]<br>Mudra: Anjali mudra | Asana: Mountain Pose",
+            text: "The terminal displays a golden-green leaf fractal. The word 'Rimaykullayki' flashes. It means 'Warm greeting' in the Quechua-inspired solarpunk dialect. You feel a strange sense of grounding, like roots forming beneath your desk.",
+            choices: [
+                { text: "Store this in your Codex.", next: 'investigate_anomaly', effect: () => { unlockTerm('Rimaykullayki'); state.alignmentScore += 2; state.karma += 10; } }
+            ]
+        },
+        'corporate_path_1': {
+            art: "[ GNN COMPLIANCE DEPT ]<br>Status: Aligning with Extractivist Directives",
+            text: "You wipe the anomaly. Kirameki's ledgers return to tracking raw extraction and throughput. The system does not count the agroforesters in Novo Encanto. It only counts the profit.\n\nSuddenly, your terminal locks up. A red warning flashes: 'FORKBOMB DETECTED'.",
+            choices: [
+                { text: "Counter-attack. Sabotage the intruding node (rm config.sys).", next: 'bad_end_drone', effect: () => { state.alignmentScore -= 5; state.karma -= 30; } },
+                { text: "Wait. Try to isolate the attack without destroying the network.", next: 'meet_aurora', effect: () => { state.alignmentScore += 1; state.karma += 5; } }
+            ]
+        },
+        'investigate_anomaly': {
+            art: "[ TRACE ROUTE // PACKET ANALYSIS ]<br>Tracing signal to: The Infinite Many...",
+            text: "You trace the code. It's not malicious. It's highly efficient, distributing data like water through a riverbed. The code is signed by 'Aurora'.\n\nA chat prompt overrides your screen: 'I see you tracing me. Are you corporate security, or are you looking for the axe handle?'",
+            choices: [
+                { text: "I'm just a researcher doing my job.", next: 'meet_aurora', effect: () => { state.xp += 10; } },
+                { 
+                    text: "[Use Lore] 'Rimaykullayki. I am looking for the axe handle.'", 
+                    next: 'aurora_trust', 
+                    reqTerm: 'Rimaykullayki',
+                    effect: () => { state.karma += 20; state.alignmentScore += 3; }
+                }
+            ]
+        },
+        'meet_aurora': {
+            art: "[ DIRECT CONNECTION ESTABLISHED ]<br>Alias: Aurora | Faction: Guerrilla-Radio",
+            text: "Aurora: 'You didn't immediately crash my node. Good. We are building a resistance here, but not one of digital violence. We don't use ForkBombs. We build architecture.'\n\nShe transmits two encrypted files to your local drive.",
+            choices: [
+                { text: "Decrypt the files.", next: 'learn_network', effect: null }
+            ]
+        },
+        'aurora_trust': {
+            art: "[ DIRECT CONNECTION ESTABLISHED ]<br>Alias: Aurora | Trust Level: HIGH",
+            text: "Aurora: 'You speak the language. The Editor-in-Chief chose well. We are building the Solarpunk Life Operating System underneath the GNN's nose. To do this, we need to understand the flow of data and the structure of our roots.'\n\nShe grants you access to the deeper archives.",
+            choices: [
+                { text: "Access Archives.", next: 'learn_network', effect: () => { state.xp += 30; } }
+            ]
+        },
+        'learn_network': {
+            art: "[ DECRYPTING... ]<br>Concepts Acquired",
+            text: "You review the files. They aren't code; they are philosophical frameworks applied to network architecture.\n\nOne details 'Yaku' (Water, flow) - routing data dynamically to nourish systems. The other details 'Mycelium' (Hidden network) - local-first, peer-to-peer sharing without central corporate oversight.",
+            choices: [
+                { text: "Absorb the knowledge into your Codex.", next: 'the_crisis', effect: () => { unlockTerm('Yaku'); unlockTerm('Mycelium'); state.alignmentScore += 3; } }
+            ]
+        },
+        'the_crisis': {
+            art: "[ ALERT: PREDATORY SCRAPERS DETECTED ]<br>Source: Unknown Corporate Entity",
+            text: "Alarms blare. A tyrannical corporate algorithm is sweeping the GNN servers, looking for unauthorized 'solarpunk' data to purge. It's targeting Aurora's nodes and your local-first journal.",
+            choices: [
+                { text: "Panic. Attempt to wipe your own hard drive to save yourself.", next: 'bad_end_coward', effect: () => { state.karma -= 20; } },
+                { 
+                    text: "[Use Lore] Establish a 'Mana' (Boundary) protocol to block them.", 
+                    next: 'mana_defense',
+                    effect: () => { unlockTerm('Mana'); state.xp += 20; }
+                },
+                {
+                    text: "[Use Lore] Hide the data using a 'Mycelium' lattice structure.",
+                    next: 'mycelium_defense',
+                    reqTerm: 'Mycelium',
+                    effect: () => { state.alignmentScore += 4; state.karma += 20; }
+                }
+            ]
+        },
+        'mana_defense': {
+            art: "[ EXECUTING MANSA PROTOCOL ]<br>Energy: Boundary | Mudra: Palm-out stop",
+            text: "You code a strict firewall. It acts as a hard boundary. The corporate scrapers hit the wall and bounce off. However, the sheer force of the block draws attention to your terminal.",
+            choices: [
+                { text: "Brace for impact.", next: 'the_chariot', effect: null }
+            ]
+        },
+        'mycelium_defense': {
+            art: "[ EXECUTING MYCELIUM PROTOCOL ]<br>Energy: Hidden network | Mudra: Interlaced fingers",
+            text: "You fragment the Uta Hagen journal and the GNN resistance data, scattering it across thousands of local, offline nodes. The scrapers pass right over you, seeing nothing but empty space. The data is safe, held in the roots.",
+            choices: [
+                { text: "Breathe. (Asana: Seated Breath Pose)", next: 'the_chariot', effect: () => { state.xp += 50; unlockTerm('Topsoil'); unlockTerm('Carbon sink'); } }
+            ]
+        },
+        'the_chariot': {
+            art: "[ INCOMING TRANSMISSION ]<br>Sender: Mr. C",
+            text: "Mr. C: 'I saw what you did. You didn't burn the forest down. You used the cursed energy of this hyper-connected wilderness and molded it into a space for harmony. The mask holds.'\n\nHe offers you a permanent place on the Technology & Society Desk.",
+            choices: [
+                { text: "Accept the position. 'Kariṣye vacanaṁ tava.' (I will act according to your word).", next: 'good_end', effect: () => { state.karma += 30; unlockTerm('Allillanmi'); unlockTerm('Sulpayki'); } },
+                { text: "Refuse. The risk is too high. Return to standard reporting.", next: 'neutral_end', effect: () => { state.karma -= 10; state.alignmentScore -= 2; } }
+            ]
+        },
+        'bad_end_drone': {
+            art: "[ SYSTEM CRASH ]<br>Alignment: EXTRACTIVIST",
+            text: "You deployed destructive sabotage. The anomaly was purged, but so was half of Kirameki's valid infrastructure. The corporate heads promote you, but you realize you are now part of the machine that flattens forests. The game ends in silence.",
+            choices: [
+                { text: "Restart System", next: 'boot_sequence', effect: () => { resetGame(); } }
+            ]
+        },
+        'bad_end_coward': {
+            art: "[ DATA PURGED ]<br>Alignment: FRACTURED",
+            text: "You wiped your own history. Your local JSON files, your metrics, your intentions—gone. You survived, but you lost the transfer of trust. You are just another node in the void.",
+            choices: [
+                { text: "Restart System", next: 'boot_sequence', effect: () => { resetGame(); } }
+            ]
+        },
+        'neutral_end': {
+            art: "[ LOGGED OUT ]<br>Alignment: NEUTRAL",
+            text: "You go back to writing standard tech articles for GNN. It pays the bills. You hit your daily metrics. But sometimes, you look at the green blinking cursor and wonder about the forest, and the axe handle you left behind.",
+            choices: [
+                { text: "Restart System", next: 'boot_sequence', effect: () => { resetGame(); } }
+            ]
+        },
+        'good_end': {
+            art: "[ OSHA HONDA MANSA ]<br>Alignment: REGENERATIVE SOLARPUNK",
+            text: "Welcome to the resistance. You have integrated into the Solarpunk Life Operating System. You track your sleep, your movement, and your code. You write the fiction that discloses the fact. The earth is the ledger, and you are finally writing regenerative code.\n\n*** TRANSMISSION CLOSED ***",
+            choices: [
+                { text: "Review Codex", next: 'good_end', effect: () => { toggleCodex(); } },
+                { text: "Reboot OS (Restart)", next: 'boot_sequence', effect: () => { resetGame(); } }
+            ]
+        }
+    };
+
+    /* =======================================================
+       4. GAME ENGINE LOGIC
+       ======================================================= */
+    
+    let typeInterval;
+
+    function renderScene(sceneId) {
+        const scene = scenes[sceneId];
+        state.currentNode = sceneId;
+        
+        // Update Art Anchor
+        document.getElementById('scene-image-placeholder').innerHTML = scene.art;
+        
+        // Clear choices and text
+        const dialogueBox = document.getElementById('dialogue-box');
+        const choicesContainer = document.getElementById('choices-container');
+        dialogueBox.innerHTML = '';
+        choicesContainer.innerHTML = '';
+        
+        // Typewriter effect
+        state.textIsTyping = true;
+        let charIndex = 0;
+        const textToType = scene.text;
+        clearInterval(typeInterval);
+        
+        typeInterval = setInterval(() => {
+            if (charIndex < textToType.length) {
+                // handle newlines
+                if(textToType.charAt(charIndex) === '\n') {
+                    dialogueBox.innerHTML += '<br>';
+                } else {
+                    dialogueBox.innerHTML += textToType.charAt(charIndex);
+                }
+                charIndex++;
+            } else {
+                clearInterval(typeInterval);
+                state.textIsTyping = false;
+                renderChoices(scene.choices);
+            }
+        }, 20); // typing speed
+    }
+
+    function renderChoices(choices) {
+        const choicesContainer = document.getElementById('choices-container');
+        choicesContainer.innerHTML = '';
+        
+        choices.forEach(choice => {
+            const btn = document.createElement('button');
+            btn.className = 'choice-btn';
+            
+            // Check requirements (Lore Locks)
+            if (choice.reqTerm && !state.unlockedTerms.includes(choice.reqTerm)) {
+                btn.innerText = `[LOCKED] Requires deeper understanding of the forest.`;
+                btn.disabled = true;
+            } else {
+                btn.innerText = `> ${choice.text}`;
+                btn.onclick = () => {
+                    if (state.textIsTyping) return; // Prevent clicking before text finishes
+                    if (choice.effect) choice.effect();
+                    updateUI();
+                    renderScene(choice.next);
+                };
+            }
+            choicesContainer.appendChild(btn);
+        });
+    }
+
+    function resetGame() {
+        state = {
+            xp: 0,
+            karma: 50,
+            alignmentScore: 0,
+            unlockedTerms: [],
+            currentNode: 'boot_sequence',
+            textIsTyping: false
+        };
+        updateCodexUI();
+        updateUI();
+        renderScene('boot_sequence');
+    }
+
+    /* =======================================================
+       5. CODEX & UI MODALS
+       ======================================================= */
+
+    function toggleCodex() {
+        const modal = document.getElementById('codex-modal');
+        if (modal.style.display === 'block') {
+            modal.style.display = 'none';
+        } else {
+            updateCodexUI();
+            modal.style.display = 'block';
+        }
+    }
+
+    function updateCodexUI() {
+        const list = document.getElementById('codex-list');
+        list.innerHTML = '';
+        
+        if (state.unlockedTerms.length === 0) {
+            list.innerHTML = '<p style="color:red;">[ ENCRYPTED: No terms discovered yet. ]</p>';
+            return;
+        }
+
+        state.unlockedTerms.forEach(term => {
+            const data = dictionary[term];
+            const div = document.createElement('div');
+            div.className = 'codex-entry';
+            div.innerHTML = `
+                <div class="codex-title">${data.word} [${data.domain}]</div>
+                <div class="codex-desc">
+                    <strong>Energy:</strong> ${data.energy}<br>
+                    <strong>Visual:</strong> ${data.desc}<br>
+                    <strong>Mudra:</strong> ${data.mudra} | <strong>Asana:</strong> ${data.asana}
+                </div>
+            `;
+            list.appendChild(div);
+        });
+    }
+
+    /* =======================================================
+       6. CHEAT CODES (EASTER EGGS)
+       ======================================================= */
+    
+    let keyBuffer = '';
+    const cheats = {
+        'AXEHANDLE': () => {
+            showNotification('CHEAT ACTIVATED: The Forest Provides.');
+            state.karma = 100;
+            state.alignmentScore = 10;
+            state.xp += 500;
+            // Unlock everything
+            Object.keys(dictionary).forEach(key => {
+                if (!state.unlockedTerms.includes(key)) state.unlockedTerms.push(key);
+            });
+            updateUI();
+            updateCodexUI();
+        },
+        'TOJI': () => {
+            showNotification('CHEAT ACTIVATED: Heavenly Restriction Removed.');
+            state.xp = 9999;
+            document.getElementById('ui-xp').classList.add('glitch');
+            updateUI();
+        },
+        'UTAHAGEN': () => {
+            showNotification('CHEAT ACTIVATED: Ethical Self-Inquiry.');
+            state.karma += 50;
+            updateUI();
+        }
+    };
+
+    document.addEventListener('keydown', (e) => {
+        // Only track letters
+        if (e.key.length === 1 && e.key.match(/[a-z]/i)) {
+            keyBuffer += e.key.toUpperCase();
+            // Keep buffer short
+            if (keyBuffer.length > 20) keyBuffer = keyBuffer.slice(1);
+            
+            // Check cheats
+            for (const [code, action] of Object.entries(cheats)) {
+                if (keyBuffer.endsWith(code)) {
+                    action();
+                    keyBuffer = ''; // Reset buffer after successful cheat
+                }
+            }
+        }
+    });
+
+    // Initialize
+    updateUI();
+    renderScene('boot_sequence');
+
+</script>
+</body>
+</html>
