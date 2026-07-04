@@ -249,16 +249,16 @@
     
     // The dictionary of terms to be discovered. 
     const dictionary = {
-        "Rimaykullayki": { word: "Rimaykullayki", domain: "Solarpunk", energy: "Warm greeting", desc: "Open door formed by two leaves and a small sun above it.", mudra: "Anjali mudra.", asana: "Mountain Pose." },
-        "Yaku": { word: "Yaku", domain: "Solarpunk", energy: "Water, flow", desc: "Wave line feeding a seed.", mudra: "Cupped hands.", asana: "Child’s Pose." },
+        "Rimaykullayki": { word: "Rimaykullayki", domain: "Solarpunk", energy: "Warm greeting", desc: "Open door formed by two leaves and a small sun above it.", mudra: "Anjali mudra.", asana: "M[...]
+        "Yaku": { word: "Yaku", domain: "Solarpunk", energy: "Water, flow", desc: "Wave line feeding a seed.", mudra: "Cupped hands.", asana: "Child's Pose." },
         "Mana": { word: "Mana", domain: "Solarpunk", energy: "Boundary", desc: "Closed gate circle with a single horizontal bar.", mudra: "Palm-out stop gesture.", asana: "Mountain Pose." },
-        "Mycelium": { word: "Mycelium", domain: "Regenerative agriculture", energy: "Hidden network", desc: "Fine branching lattice under a seed.", mudra: "Interlaced fingers.", asana: "Seated Breath Pose." },
-        "Topsoil": { word: "Topsoil", domain: "Regenerative agriculture", energy: "Fertile surface layer", desc: "Thin layered band with tiny root threads.", mudra: "Hands flat and parallel.", asana: "Mountain Pose." },
-        "Sulpayki": { word: "Sulpayki", domain: "Solarpunk", energy: "Gratitude", desc: "Flower-cup receiving a drop of water.", mudra: "Palms together, slightly lowered.", asana: "Seated Easy Pose with bow." },
-        "Resilience": { word: "Resilience", domain: "Regenerative agriculture", energy: "Recovering strength", desc: "Bent stem springing upright.", mudra: "Fist softens open at chest.", asana: "Tree Pose." },
-        "Rotational grazing": { word: "Rotational grazing", domain: "Regenerative agriculture", energy: "Renewal through movement", desc: "Circular path with a hoof mark and grass tuft.", mudra: "One hand tracing a loop.", asana: "Warrior II." },
-        "Allillanmi": { word: "Allillanmi", domain: "Solarpunk", energy: "Steady well-being", desc: "Nested circles with a calm center dot.", mudra: "One hand heart, one hand belly.", asana: "Staff Pose." },
-        "Carbon sink": { word: "Carbon sink", domain: "Regenerative agriculture", energy: "Sequestration", desc: "Root net pulling a dot downward.", mudra: "Hands pressing gently down.", asana: "Standing Forward Fold." }
+        "Mycelium": { word: "Mycelium", domain: "Regenerative agriculture", energy: "Hidden network", desc: "Fine branching lattice under a seed.", mudra: "Interlaced fingers.", asana: "Seated Br[...]
+        "Topsoil": { word: "Topsoil", domain: "Regenerative agriculture", energy: "Fertile surface layer", desc: "Thin layered band with tiny root threads.", mudra: "Hands flat and parallel.", as[...]
+        "Sulpayki": { word: "Sulpayki", domain: "Solarpunk", energy: "Gratitude", desc: "Flower-cup receiving a drop of water.", mudra: "Palms together, slightly lowered.", asana: "Seated Easy Po[...]
+        "Resilience": { word: "Resilience", domain: "Regenerative agriculture", energy: "Recovering strength", desc: "Bent stem springing upright.", mudra: "Fist softens open at chest.", asana: "[...]
+        "Rotational grazing": { word: "Rotational grazing", domain: "Regenerative agriculture", energy: "Renewal through movement", desc: "Circular path with a hoof mark and grass tuft.", mudra: [...]
+        "Allillanmi": { word: "Allillanmi", domain: "Solarpunk", energy: "Steady well-being", desc: "Nested circles with a calm center dot.", mudra: "One hand heart, one hand belly.", asana: "Sta[...]
+        "Carbon sink": { word: "Carbon sink", domain: "Regenerative agriculture", energy: "Sequestration", desc: "Root net pulling a dot downward.", mudra: "Hands pressing gently down.", asana: "[...]
     };
 
     /* =======================================================
@@ -315,37 +315,37 @@
     const scenes = {
         'boot_sequence': {
             art: "[ GNN TECH & SOCIETY DESK // TERMINAL A-1 ]<br>User: Staff Researcher<br>Location: Salt Lake City Dateline",
-            text: "System booting...\nConnecting to Global NewsNetwork mainframes...\nAuthentication accepted. Welcome to the Technology & Society Desk.\n\nMemo from Editor-in-Chief (Mr. C): 'Remember our directive. Honesty over speed. Ethics as foundation. Filter the noise.'",
+            text: "System booting...\nConnecting to Global NewsNetwork mainframes...\nAuthentication accepted. Welcome to the Technology & Society Desk.\n\nMemo from Editorial Director (Axiom): 'Rem[...]
             choices: [
                 { text: "Acknowledge directive and log into the daily queue.", next: 'daily_queue', effect: () => { state.xp += 10; } },
                 { text: "[SysAdmin] Bypass daily queue and inspect hidden directories.", next: 'hidden_directory', effect: () => { state.karma += 5; } }
             ]
         },
         'daily_queue': {
-            art: "[ GNN INBOX // TICKET #404 ]<br>Subject: Data Leak in Kirameki Agricultural Sector",
-            text: "Your first ticket is a standard corporate data scrub. The Kirameki think tank is reporting an anomaly in their server logs. A sub-routine is redirecting processing power away from their 'linear accounting' ledgers and routing it toward... local community weather nodes.",
+            art: "[ GNN INBOX // TICKET #404 ]<br>Subject: Data Leak in Verdant Collective Agricultural Sector",
+            text: "Your first ticket is a standard corporate data scrub. The Verdant Collective think tank is reporting an anomaly in their server logs. A sub-routine is redirecting processing power away f[...]
             choices: [
-                { text: "Run standard GNN corporate protocol. Delete the anomaly and secure the ledger.", next: 'corporate_path_1', effect: () => { state.alignmentScore -= 2; state.karma -= 10; state.xp += 20; } },
+                { text: "Run standard GNN corporate protocol. Delete the anomaly and secure the ledger.", next: 'corporate_path_1', effect: () => { state.alignmentScore -= 2; state.karma -= 10; s[...]
                 { text: "Analyze the anomaly's code structure first. Who wrote this?", next: 'investigate_anomaly', effect: () => { state.alignmentScore += 1; state.xp += 15; } }
             ]
         },
         'hidden_directory': {
             art: "[ DIRECTORY: OSHA HONDA MANSA ]<br>Encryption Level: Uta Hagen Cipher",
-            text: "You bypass the main feed. Beneath the GNN corporate shell, you find a hidden partition. It's labeled 'Osha Honda Mansa'. A text file blinks on the screen: 'This newsletter is our V for Vendetta mask—the fiction that discloses the fact.'\n\nA greeting protocol executes...",
+            text: "You bypass the main feed. Beneath the GNN corporate shell, you find a hidden partition. It's labeled 'Osha Honda Mansa'. A text file blinks on the screen: 'This newsletter is o[...]
             choices: [
                 { text: "Accept the greeting.", next: 'learn_rimaykullayki', effect: null }
             ]
         },
         'learn_rimaykullayki': {
             art: "[ SUB-ROUTINE EXECUTING ]<br>Mudra: Anjali mudra | Asana: Mountain Pose",
-            text: "The terminal displays a golden-green leaf fractal. The word 'Rimaykullayki' flashes. It means 'Warm greeting' in the Quechua-inspired solarpunk dialect. You feel a strange sense of grounding, like roots forming beneath your desk.",
+            text: "The terminal displays a golden-green leaf fractal. The word 'Rimaykullayki' flashes. It means 'Warm greeting' in the Quechua-inspired solarpunk dialect. You feel a strange sens[...]
             choices: [
                 { text: "Store this in your Codex.", next: 'investigate_anomaly', effect: () => { unlockTerm('Rimaykullayki'); state.alignmentScore += 2; state.karma += 10; } }
             ]
         },
         'corporate_path_1': {
             art: "[ GNN COMPLIANCE DEPT ]<br>Status: Aligning with Extractivist Directives",
-            text: "You wipe the anomaly. Kirameki's ledgers return to tracking raw extraction and throughput. The system does not count the agroforesters in Novo Encanto. It only counts the profit.\n\nSuddenly, your terminal locks up. A red warning flashes: 'FORKBOMB DETECTED'.",
+            text: "You wipe the anomaly. Verdant Collective's ledgers return to tracking raw extraction and throughput. The system does not count the agroforesters in Novo Encanto. It only counts the profi[...]
             choices: [
                 { text: "Counter-attack. Sabotage the intruding node (rm config.sys).", next: 'bad_end_drone', effect: () => { state.alignmentScore -= 5; state.karma -= 30; } },
                 { text: "Wait. Try to isolate the attack without destroying the network.", next: 'meet_aurora', effect: () => { state.alignmentScore += 1; state.karma += 5; } }
@@ -353,7 +353,7 @@
         },
         'investigate_anomaly': {
             art: "[ TRACE ROUTE // PACKET ANALYSIS ]<br>Tracing signal to: The Infinite Many...",
-            text: "You trace the code. It's not malicious. It's highly efficient, distributing data like water through a riverbed. The code is signed by 'Aurora'.\n\nA chat prompt overrides your screen: 'I see you tracing me. Are you corporate security, or are you looking for the axe handle?'",
+            text: "You trace the code. It's not malicious. It's highly efficient, distributing data like water through a riverbed. The code is signed by 'Aurora'.\n\nA chat prompt overrides your [...]
             choices: [
                 { text: "I'm just a researcher doing my job.", next: 'meet_aurora', effect: () => { state.xp += 10; } },
                 { 
@@ -366,28 +366,28 @@
         },
         'meet_aurora': {
             art: "[ DIRECT CONNECTION ESTABLISHED ]<br>Alias: Aurora | Faction: Guerrilla-Radio",
-            text: "Aurora: 'You didn't immediately crash my node. Good. We are building a resistance here, but not one of digital violence. We don't use ForkBombs. We build architecture.'\n\nShe transmits two encrypted files to your local drive.",
+            text: "Aurora: 'You didn't immediately crash my node. Good. We are building a resistance here, but not one of digital violence. We don't use ForkBombs. We build architecture.'\n\nShe [...]
             choices: [
                 { text: "Decrypt the files.", next: 'learn_network', effect: null }
             ]
         },
         'aurora_trust': {
             art: "[ DIRECT CONNECTION ESTABLISHED ]<br>Alias: Aurora | Trust Level: HIGH",
-            text: "Aurora: 'You speak the language. The Editor-in-Chief chose well. We are building the Solarpunk Life Operating System underneath the GNN's nose. To do this, we need to understand the flow of data and the structure of our roots.'\n\nShe grants you access to the deeper archives.",
+            text: "Aurora: 'You speak the language. The Editorial Director chose well. We are building the Solarpunk Life Operating System underneath the GNN's nose. To do this, we need to understan[...]
             choices: [
                 { text: "Access Archives.", next: 'learn_network', effect: () => { state.xp += 30; } }
             ]
         },
         'learn_network': {
             art: "[ DECRYPTING... ]<br>Concepts Acquired",
-            text: "You review the files. They aren't code; they are philosophical frameworks applied to network architecture.\n\nOne details 'Yaku' (Water, flow) - routing data dynamically to nourish systems. The other details 'Mycelium' (Hidden network) - local-first, peer-to-peer sharing without central corporate oversight.",
+            text: "You review the files. They aren't code; they are philosophical frameworks applied to network architecture.\n\nOne details 'Yaku' (Water, flow) - routing data dynamically to nou[...]
             choices: [
                 { text: "Absorb the knowledge into your Codex.", next: 'the_crisis', effect: () => { unlockTerm('Yaku'); unlockTerm('Mycelium'); state.alignmentScore += 3; } }
             ]
         },
         'the_crisis': {
             art: "[ ALERT: PREDATORY SCRAPERS DETECTED ]<br>Source: Unknown Corporate Entity",
-            text: "Alarms blare. A tyrannical corporate algorithm is sweeping the GNN servers, looking for unauthorized 'solarpunk' data to purge. It's targeting Aurora's nodes and your local-first journal.",
+            text: "Alarms blare. A tyrannical corporate algorithm is sweeping the GNN servers, looking for unauthorized 'solarpunk' data to purge. It's targeting Aurora's nodes and your local-fir[...]
             choices: [
                 { text: "Panic. Attempt to wipe your own hard drive to save yourself.", next: 'bad_end_coward', effect: () => { state.karma -= 20; } },
                 { 
@@ -405,50 +405,50 @@
         },
         'mana_defense': {
             art: "[ EXECUTING MANSA PROTOCOL ]<br>Energy: Boundary | Mudra: Palm-out stop",
-            text: "You code a strict firewall. It acts as a hard boundary. The corporate scrapers hit the wall and bounce off. However, the sheer force of the block draws attention to your terminal.",
+            text: "You code a strict firewall. It acts as a hard boundary. The corporate scrapers hit the wall and bounce off. However, the sheer force of the block draws attention to your termin[...]
             choices: [
                 { text: "Brace for impact.", next: 'the_chariot', effect: null }
             ]
         },
         'mycelium_defense': {
             art: "[ EXECUTING MYCELIUM PROTOCOL ]<br>Energy: Hidden network | Mudra: Interlaced fingers",
-            text: "You fragment the Uta Hagen journal and the GNN resistance data, scattering it across thousands of local, offline nodes. The scrapers pass right over you, seeing nothing but empty space. The data is safe, held in the roots.",
+            text: "You fragment the Uta Hagen journal and the GNN resistance data, scattering it across thousands of local, offline nodes. The scrapers pass right over you, seeing nothing but emp[...]
             choices: [
                 { text: "Breathe. (Asana: Seated Breath Pose)", next: 'the_chariot', effect: () => { state.xp += 50; unlockTerm('Topsoil'); unlockTerm('Carbon sink'); } }
             ]
         },
         'the_chariot': {
-            art: "[ INCOMING TRANSMISSION ]<br>Sender: Mr. C",
-            text: "Mr. C: 'I saw what you did. You didn't burn the forest down. You used the cursed energy of this hyper-connected wilderness and molded it into a space for harmony. The mask holds.'\n\nHe offers you a permanent place on the Technology & Society Desk.",
+            art: "[ INCOMING TRANSMISSION ]<br>Sender: Axiom",
+            text: "Axiom: 'I saw what you did. You didn't burn the forest down. You used the cursed energy of this hyper-connected wilderness and molded it into a space for harmony. The mask hold[...]
             choices: [
-                { text: "Accept the position. 'Kariṣye vacanaṁ tava.' (I will act according to your word).", next: 'good_end', effect: () => { state.karma += 30; unlockTerm('Allillanmi'); unlockTerm('Sulpayki'); } },
+                { text: "Accept the position. 'Kariṣye vacanaṁ tava.' (I will act according to your word).", next: 'good_end', effect: () => { state.karma += 30; unlockTerm('Allillanmi'); unl[...]
                 { text: "Refuse. The risk is too high. Return to standard reporting.", next: 'neutral_end', effect: () => { state.karma -= 10; state.alignmentScore -= 2; } }
             ]
         },
         'bad_end_drone': {
             art: "[ SYSTEM CRASH ]<br>Alignment: EXTRACTIVIST",
-            text: "You deployed destructive sabotage. The anomaly was purged, but so was half of Kirameki's valid infrastructure. The corporate heads promote you, but you realize you are now part of the machine that flattens forests. The game ends in silence.",
+            text: "You deployed destructive sabotage. The anomaly was purged, but so was half of Verdant Collective's valid infrastructure. The corporate heads promote you, but you realize you are now part[...]
             choices: [
                 { text: "Restart System", next: 'boot_sequence', effect: () => { resetGame(); } }
             ]
         },
         'bad_end_coward': {
             art: "[ DATA PURGED ]<br>Alignment: FRACTURED",
-            text: "You wiped your own history. Your local JSON files, your metrics, your intentions—gone. You survived, but you lost the transfer of trust. You are just another node in the void.",
+            text: "You wiped your own history. Your local JSON files, your metrics, your intentions—gone. You survived, but you lost the transfer of trust. You are just another node in the void[...]
             choices: [
                 { text: "Restart System", next: 'boot_sequence', effect: () => { resetGame(); } }
             ]
         },
         'neutral_end': {
             art: "[ LOGGED OUT ]<br>Alignment: NEUTRAL",
-            text: "You go back to writing standard tech articles for GNN. It pays the bills. You hit your daily metrics. But sometimes, you look at the green blinking cursor and wonder about the forest, and the axe handle you left behind.",
+            text: "You go back to writing standard tech articles for GNN. It pays the bills. You hit your daily metrics. But sometimes, you look at the green blinking cursor and wonder about the [...]
             choices: [
                 { text: "Restart System", next: 'boot_sequence', effect: () => { resetGame(); } }
             ]
         },
         'good_end': {
             art: "[ OSHA HONDA MANSA ]<br>Alignment: REGENERATIVE SOLARPUNK",
-            text: "Welcome to the resistance. You have integrated into the Solarpunk Life Operating System. You track your sleep, your movement, and your code. You write the fiction that discloses the fact. The earth is the ledger, and you are finally writing regenerative code.\n\n*** TRANSMISSION CLOSED ***",
+            text: "Welcome to the resistance. You have integrated into the Solarpunk Life Operating System. You track your sleep, your movement, and your code. You write the fiction that disclose[...]
             choices: [
                 { text: "Review Codex", next: 'good_end', effect: () => { toggleCodex(); } },
                 { text: "Reboot OS (Restart)", next: 'boot_sequence', effect: () => { resetGame(); } }
