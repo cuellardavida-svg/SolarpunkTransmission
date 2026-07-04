@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solarpunk Transmission // Relay Log</title>
+  <style>
+    :root {
+      --bg: #0a0f0a;
+      --panel: #0d1610;
+      --fg: #d8ffe0;
+      --muted: #89b79a;
+      --accent: #7df9a7;
+      --warn: #ffd166;
+      --border: #2f5f43;
+      --danger: #ff6b6b;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: "Courier New", Courier, monospace;
+      line-height: 1.65;
+      display: grid;
+      place-items: start center;
+      padding: 1rem;
+    }
+
+    main {
+      width: min(920px, 100%);
+      border: 2px solid var(--border);
+      background: var(--panel);
+      padding: 1.5rem;
+      box-shadow: 0 0 0 4px rgba(125, 249, 167, 0.08);
+      margin-top: 1rem;
+    }
+
+    h1 {
+      margin: 0 0 0.3rem;
+      color: var(--accent);
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      letter-spacing: 0.04em;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 1.4rem;
+      border-left: 3px solid var(--border);
+      padding-left: 0.6rem;
+    }
+
+    section {
+      border-top: 1px dashed var(--border);
+      padding: 1rem 0 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      margin: 0 0 0.7rem;
+      font-size: 0.9rem;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+    }
+
+    .empty {
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-style: italic;
+    }
+
+    /* Visit log entries */
+    .visit-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .visit-list li {
+      font-size: 0.88rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      border-left: 2px solid var(--border);
+      padding-left: 0.6rem;
+    }
+
+    .visit-scene { color: var(--fg); }
+    .visit-time  { color: var(--muted); font-size: 0.8rem; white-space: nowrap; }
+
+    /* Passcode entries */
+    .passcode-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    .passcode-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    code {
+      color: var(--warn);
+      background: rgba(255, 209, 102, 0.08);
+      padding: 0.15rem 0.4rem;
+      border: 1px solid rgba(255, 209, 102, 0.25);
+      font-size: 0.92rem;
+      letter-spacing: 0.05em;
+    }
+
+    .pc-scene {
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    /* Queue entries */
+    .queue-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1rem;
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .queue-list li {
+      background: rgba(125, 249, 167, 0.04);
+      border: 1px solid var(--border);
+      padding: 0.5rem 0.7rem;
+      font-size: 0.88rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .q-text { flex: 1; word-break: break-word; }
+
+    .q-meta {
+      color: var(--muted);
+      font-size: 0.78rem;
+      white-space: nowrap;
+    }
+
+    button.q-delete {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--danger);
+      font-family: inherit;
+      font-size: 0.75rem;
+      cursor: pointer;
+      padding: 0.15rem 0.4rem;
+      flex-shrink: 0;
+    }
+
+    button.q-delete:hover,
+    button.q-delete:focus-visible {
+      background: rgba(255, 107, 107, 0.1);
+      outline: none;
+    }
+
+    /* Queue input form */
+    .queue-form {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .queue-form input[type="text"] {
+      flex: 1;
+      min-width: 180px;
+      background: #020802;
+      border: 1px solid var(--border);
+      color: var(--fg);
+      font-family: inherit;
+      font-size: 0.88rem;
+      padding: 0.5rem 0.7rem;
+    }
+
+    .queue-form input[type="text"]:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent);
+    }
+
+    .queue-form button[type="submit"] {
+      background: rgba(125, 249, 167, 0.08);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-family: inherit;
+      font-size: 0.88rem;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .queue-form button[type="submit"]:hover,
+    .queue-form button[type="submit"]:focus-visible {
+      background: rgba(125, 249, 167, 0.18);
+      outline: none;
+    }
+
+    /* Footer nav */
+    footer {
+      border-top: 1px dashed var(--border);
+      padding-top: 1rem;
+      margin-top: 0.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    a.sys {
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 0.4rem 0.6rem;
+      font-size: 0.85rem;
+      display: inline-block;
+    }
+
+    a.sys:hover,
+    a.sys:focus-visible {
+      color: var(--accent);
+      border-color: var(--accent);
+      outline: none;
+    }
+
+    button.cold-boot {
+      background: none;
+      border: 1px solid var(--danger);
+      color: var(--danger);
+      font-family: inherit;
+      font-size: 0.85rem;
+      padding: 0.4rem 0.6rem;
+      cursor: pointer;
+    }
+
+    button.cold-boot:hover,
+    button.cold-boot:focus-visible {
+      background: rgba(255, 107, 107, 0.1);
+      outline: none;
+    }
+
+    .status-msg {
+      color: var(--accent);
+      font-size: 0.82rem;
+      margin-top: 0.4rem;
+      min-height: 1.2em;
+    }
+  </style>
+</head>
+<body>
+  <main aria-labelledby="log-title">
+    <h1 id="log-title">OPERATOR RELAY LOG</h1>
+    <p class="subtitle">
+      The machine claims it cannot remember. This log disagrees.
+      All entries stored locally in your browser — no server, no network required.
+    </p>
+
+    <!-- Scene visit history -->
+    <section aria-labelledby="visits-heading">
+      <h2 id="visits-heading">// TRANSMISSION HISTORY</h2>
+      <ul class="visit-list" id="visit-list" aria-live="polite">
+        <li class="empty">No transmissions logged yet.</li>
+      </ul>
+    </section>
+
+    <!-- Auto-saved passcodes -->
+    <section aria-labelledby="passcodes-heading">
+      <h2 id="passcodes-heading">// RELAY PASSCODES (AUTO-SAVED)</h2>
+      <ul class="passcode-list" id="passcode-list" aria-live="polite">
+        <li class="empty">No passcodes recovered yet.</li>
+      </ul>
+    </section>
+
+    <!-- Queued operator notes -->
+    <section aria-labelledby="queue-heading">
+      <h2 id="queue-heading">// QUEUED TRANSMISSIONS (OPERATOR NOTES)</h2>
+      <ul class="queue-list" id="queue-list" aria-live="polite">
+        <!-- populated by JS -->
+      </ul>
+      <form class="queue-form" id="queue-form" aria-label="Queue a transmission">
+        <input
+          type="text"
+          id="queue-input"
+          maxlength="280"
+          placeholder="Draft a transmission…"
+          aria-label="Transmission text"
+          autocomplete="off"
+        />
+        <button type="submit">[ Queue ]</button>
+      </form>
+      <p class="status-msg" id="status-msg" aria-live="polite"></p>
+    </section>
+
+    <footer>
+      <a class="sys" href="chapter1/c1-start.html">[ Chapter 1 ]</a>
+      <a class="sys" href="passcodes.html">[ Passcodes ]</a>
+      <a class="sys" href="index.html">[ Cold Boot ]</a>
+      <button class="cold-boot" id="clear-btn" aria-label="Wipe relay log">[ Wipe Log ]</button>
+    </footer>
+  </main>
+
+  <script src="transmission-queue.js"></script>
+  <script>
+    (function () {
+      'use strict';
+
+      var visitList   = document.getElementById('visit-list');
+      var passcodeList = document.getElementById('passcode-list');
+      var queueList   = document.getElementById('queue-list');
+      var queueForm   = document.getElementById('queue-form');
+      var queueInput  = document.getElementById('queue-input');
+      var statusMsg   = document.getElementById('status-msg');
+      var clearBtn    = document.getElementById('clear-btn');
+
+      /** Format a Unix ms timestamp as HH:MM, MMM DD. */
+      function fmt(ts) {
+        var d = new Date(ts);
+        var hh = String(d.getHours()).padStart(2, '0');
+        var mm = String(d.getMinutes()).padStart(2, '0');
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        return hh + ':' + mm + ' ' + months[d.getMonth()] + ' ' + d.getDate();
+      }
+
+      function render() {
+        var log = TransmissionQueue.getLog();
+
+        // ── Visits ────────────────────────────────────────────────────────
+        if (log.visits.length === 0) {
+          visitList.innerHTML = '<li class="empty">No transmissions logged yet.</li>';
+        } else {
+          visitList.innerHTML = log.visits.map(function (v, i) {
+            return '<li>'
+              + '<span class="visit-scene">' + escHtml(v.title || v.sceneId) + '</span>'
+              + '<span class="visit-time">' + fmt(v.ts) + '</span>'
+              + '</li>';
+          }).join('');
+        }
+
+        // ── Passcodes ─────────────────────────────────────────────────────
+        if (log.passcodes.length === 0) {
+          passcodeList.innerHTML = '<li class="empty">No passcodes recovered yet.</li>';
+        } else {
+          passcodeList.innerHTML = log.passcodes.map(function (p) {
+            return '<li>'
+              + '<code>' + escHtml(p.code) + '</code>'
+              + '<span class="pc-scene">from: ' + escHtml(p.sceneId) + '</span>'
+              + '</li>';
+          }).join('');
+        }
+
+        // ── Queue ─────────────────────────────────────────────────────────
+        if (log.queue.length === 0) {
+          queueList.innerHTML = '<li class="empty">No queued transmissions.</li>';
+        } else {
+          queueList.innerHTML = log.queue.map(function (item, idx) {
+            return '<li>'
+              + '<span class="q-text">' + escHtml(item.text) + '</span>'
+              + '<span class="q-meta">' + fmt(item.ts) + '</span>'
+              + '<button class="q-delete" data-idx="' + idx + '" aria-label="Delete this entry">[ x ]</button>'
+              + '</li>';
+          }).join('');
+
+          // Wire up individual delete buttons
+          queueList.querySelectorAll('.q-delete').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+              var idx = parseInt(btn.getAttribute('data-idx'), 10);
+              var current = TransmissionQueue.getLog();
+              current.queue.splice(idx, 1);
+              // Re-save directly via the internal key (log is a plain object)
+              try { localStorage.setItem('solarpunk_relay_log', JSON.stringify(current)); } catch (_) {}
+              render();
+            });
+          });
+        }
+      }
+
+      /** Minimal HTML-escape to prevent injection via stored data. */
+      function escHtml(str) {
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      // ── Queue form submit ─────────────────────────────────────────────────
+      queueForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var text = queueInput.value.trim();
+        if (!text) return;
+        var ok = TransmissionQueue.queue(text);
+        if (ok) {
+          queueInput.value = '';
+          statusMsg.textContent = 'Transmission queued.';
+          render();
+          setTimeout(function () { statusMsg.textContent = ''; }, 2500);
+        }
+      });
+
+      // ── Wipe log ──────────────────────────────────────────────────────────
+      clearBtn.addEventListener('click', function () {
+        if (confirm('Wipe the entire relay log? This cannot be undone.')) {
+          TransmissionQueue.clearLog();
+          render();
+          statusMsg.textContent = 'Log wiped. Cold boot complete.';
+          setTimeout(function () { statusMsg.textContent = ''; }, 3000);
+        }
+      });
+
+      // Initial render
+      render();
+    }());
+  </script>
+</body>
+</html>
