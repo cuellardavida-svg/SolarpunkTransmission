@@ -86,6 +86,17 @@
     return loadLog();
   }
 
+  /** Delete a single queued note by its index. */
+  function deleteQueueEntry(index) {
+    var log = loadLog();
+    if (index >= 0 && index < log.queue.length) {
+      log.queue.splice(index, 1);
+      saveLog(log);
+      return true;
+    }
+    return false;
+  }
+
   /** Wipe the entire log (cold boot). */
   function clearLog() {
     try {
@@ -93,6 +104,6 @@
     } catch (_) {}
   }
 
-  global.TransmissionQueue = { queue: queue, getLog: getLog, clearLog: clearLog };
+  global.TransmissionQueue = { queue: queue, getLog: getLog, deleteQueueEntry: deleteQueueEntry, clearLog: clearLog };
 
 }(typeof window !== 'undefined' ? window : this));

@@ -379,10 +379,7 @@
           queueList.querySelectorAll('.q-delete').forEach(function (btn) {
             btn.addEventListener('click', function () {
               var idx = parseInt(btn.getAttribute('data-idx'), 10);
-              var current = TransmissionQueue.getLog();
-              current.queue.splice(idx, 1);
-              // Re-save directly via the internal key (log is a plain object)
-              try { localStorage.setItem('solarpunk_relay_log', JSON.stringify(current)); } catch (_) {}
+              TransmissionQueue.deleteQueueEntry(idx);
               render();
             });
           });
