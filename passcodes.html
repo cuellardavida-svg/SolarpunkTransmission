@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solarpunk Transmission // Passcode Re-entry</title>
+  <style>
+    :root {
+      --bg: #0a0f0a;
+      --fg: #d8ffe0;
+      --accent: #7df9a7;
+      --muted: #89b79a;
+      --border: #2f5f43;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: "Courier New", Courier, monospace;
+      line-height: 1.6;
+      display: grid;
+      place-items: center;
+      padding: 1rem;
+    }
+
+    main {
+      width: min(920px, 100%);
+      border: 2px solid var(--border);
+      padding: 1.5rem;
+      background: rgba(5, 12, 8, 0.9);
+      box-shadow: 0 0 0 4px rgba(125, 249, 167, 0.08);
+    }
+
+    h1 {
+      margin-top: 0;
+      color: var(--accent);
+      font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+      letter-spacing: 0.04em;
+    }
+
+    h2 {
+      color: var(--accent);
+      margin-top: 1.4rem;
+      font-size: 1.05rem;
+    }
+
+    ul {
+      padding-left: 1.1rem;
+      margin-top: 0.5rem;
+    }
+
+    li { margin: 0.45rem 0; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 0.5rem 0.7rem;
+      display: inline-block;
+      margin-top: 1rem;
+      background: rgba(125, 249, 167, 0.05);
+    }
+
+    a:hover,
+    a:focus-visible {
+      outline: none;
+      background: rgba(125, 249, 167, 0.16);
+      box-shadow: 0 0 0 2px rgba(125, 249, 167, 0.2);
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    code {
+      color: #f9f871;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 0.1rem 0.3rem;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body>
+  <main aria-labelledby="passcodes-title">
+    <h1 id="passcodes-title">PASSCODE RE-ENTRY INDEX</h1>
+
+    <p>
+      Relay state is not stored by machine. To resume prior routes, use operator-kept passcodes.
+    </p>
+
+    <h2>Known relay phrases</h2>
+    <ul>
+      <li><code>SEED-SPARK-01</code> — Placeholder route (coming online)</li>
+      <li><code>EMBER-LATTICE-3</code> — Placeholder route (coming online)</li>
+      <li><code>AURORA-NULL</code> — Undocumented frequency</li>
+    </ul>
+
+    <p class="muted">
+      Tip: additional phrases may appear in transmissions outside this terminal.
+    </p>
+
+    <a href="index.html">[ Return to Cold Boot ]</a>
+  </main>
+</body>
+</html>
