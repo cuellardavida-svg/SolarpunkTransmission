@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solarpunk Transmission // Accord §8</title>
+  <style>
+    :root {
+      --bg: #0a0f0a;
+      --panel: #0d1610;
+      --fg: #d8ffe0;
+      --muted: #89b79a;
+      --accent: #7df9a7;
+      --warn: #ffd166;
+      --border: #2f5f43;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: "Courier New", Courier, monospace;
+      line-height: 1.65;
+      display: grid;
+      place-items: start center;
+      padding: 1rem;
+    }
+
+    main {
+      width: min(920px, 100%);
+      border: 2px solid var(--border);
+      background: var(--panel);
+      padding: 1.5rem;
+      box-shadow: 0 0 0 4px rgba(125, 249, 167, 0.08);
+      margin-top: 1rem;
+    }
+
+    h1 {
+      margin: 0 0 0.3rem;
+      color: var(--accent);
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      letter-spacing: 0.04em;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 1.4rem;
+      border-left: 3px solid var(--border);
+      padding-left: 0.6rem;
+    }
+
+    section {
+      border-top: 1px dashed var(--border);
+      padding: 1rem 0 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      margin: 0 0 0.7rem;
+      font-size: 0.9rem;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+    }
+
+    p {
+      font-size: 0.88rem;
+      margin: 0.5rem 0;
+    }
+
+    .accord {
+      color: var(--warn);
+      font-size: 0.82rem;
+      border: 1px solid rgba(255, 209, 102, 0.25);
+      background: rgba(255, 209, 102, 0.04);
+      padding: 0.65rem 0.8rem;
+      margin: 0.75rem 0;
+    }
+
+    .accord strong {
+      display: block;
+      margin-bottom: 0.3rem;
+      letter-spacing: 0.04em;
+    }
+
+    .principle {
+      border-left: 3px solid var(--border);
+      padding-left: 0.75rem;
+      margin: 0.6rem 0;
+      font-size: 0.88rem;
+    }
+
+    footer {
+      border-top: 1px dashed var(--border);
+      padding-top: 1rem;
+      margin-top: 0.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    a.sys {
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 0.4rem 0.6rem;
+      font-size: 0.85rem;
+      display: inline-block;
+    }
+
+    a.sys:hover,
+    a.sys:focus-visible {
+      color: var(--accent);
+      border-color: var(--accent);
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- SCENE_ID: l-accord8 | LEADS_TO: ../relay-log.html, ../index.html, l-glossary.html | PASSCODE_IF_ANY: none -->
+  <main aria-labelledby="accord-title">
+    <h1 id="accord-title">ACCORD §8 — MEMORY BY DESIGN</h1>
+    <p class="subtitle">Lore // Transmission Protocol // Foundational Doctrine</p>
+
+    <section aria-labelledby="protocol-heading">
+      <h2 id="protocol-heading">// THE PROTOCOL</h2>
+      <div class="accord">
+        <strong>TRANSMISSION PROTOCOL — END OF CYCLE:</strong>
+        This relay does not retain operator state between sessions.
+        No visit history. No passcode archive. No queued notes.
+        When you leave, the record leaves with you.
+      </div>
+      <p>This is not a limitation. It is the design.</p>
+    </section>
+
+    <section aria-labelledby="rationale-heading">
+      <h2 id="rationale-heading">// RATIONALE</h2>
+      <p>
+        The solarpunk network runs on transparency and distributed trust.
+        Centralized memory creates dependency; dependency creates control.
+        Logging is the operator's responsibility — done by hand, held in your own keeping.
+      </p>
+      <p>Write down what matters. Carry it forward yourself.</p>
+    </section>
+
+    <section aria-labelledby="principles-heading">
+      <h2 id="principles-heading">// PRINCIPLES</h2>
+      <div class="principle">No single node stores the whole map.</div>
+      <div class="principle">Silence is a choice, not a default. Choose it consciously.</div>
+      <div class="principle">The operator's memory is the network's memory.</div>
+      <div class="principle">Distributed trust cannot be revoked by a central authority.</div>
+    </section>
+
+    <section aria-labelledby="apply-heading">
+      <h2 id="apply-heading">// IN PRACTICE</h2>
+      <p>
+        Passcodes earned through play are not stored by the terminal.
+        Record them externally — in a notebook, a text file, your own mind.
+        Their presence in your keeping is proof of your path.
+      </p>
+      <p>
+        The Relay Log offers a temporary scratch pad while your session is live.
+        It clears when you leave. That clearing is part of the accord.
+      </p>
+    </section>
+
+    <footer>
+      <a class="sys" href="../relay-log.html">[ Relay Log ]</a>
+      <a class="sys" href="l-glossary.html">[ Glossary ]</a>
+      <a class="sys" href="../passcodes.html">[ Passcodes ]</a>
+      <a class="sys" href="../index.html">[ Cold Boot ]</a>
+    </footer>
+  </main>
+</body>
+</html>

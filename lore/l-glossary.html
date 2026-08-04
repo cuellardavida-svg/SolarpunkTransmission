@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solarpunk Transmission // Glossary</title>
+  <style>
+    :root {
+      --bg: #0a0f0a;
+      --panel: #0d1610;
+      --fg: #d8ffe0;
+      --muted: #89b79a;
+      --accent: #7df9a7;
+      --warn: #ffd166;
+      --border: #2f5f43;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: "Courier New", Courier, monospace;
+      line-height: 1.65;
+      display: grid;
+      place-items: start center;
+      padding: 1rem;
+    }
+
+    main {
+      width: min(920px, 100%);
+      border: 2px solid var(--border);
+      background: var(--panel);
+      padding: 1.5rem;
+      box-shadow: 0 0 0 4px rgba(125, 249, 167, 0.08);
+      margin-top: 1rem;
+    }
+
+    h1 {
+      margin: 0 0 0.3rem;
+      color: var(--accent);
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      letter-spacing: 0.04em;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 1.4rem;
+      border-left: 3px solid var(--border);
+      padding-left: 0.6rem;
+    }
+
+    section {
+      border-top: 1px dashed var(--border);
+      padding: 1rem 0 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      margin: 0 0 0.7rem;
+      font-size: 0.9rem;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+    }
+
+    dl { margin: 0; }
+
+    dt {
+      color: var(--accent);
+      font-size: 0.9rem;
+      margin-top: 0.8rem;
+    }
+
+    dd {
+      margin: 0.2rem 0 0 1rem;
+      font-size: 0.86rem;
+      color: var(--fg);
+    }
+
+    .domain {
+      display: inline-block;
+      font-size: 0.75rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 0.1rem 0.3rem;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-style: italic;
+      margin-top: 0.5rem;
+    }
+
+    footer {
+      border-top: 1px dashed var(--border);
+      padding-top: 1rem;
+      margin-top: 0.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    a.sys {
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 0.4rem 0.6rem;
+      font-size: 0.85rem;
+      display: inline-block;
+    }
+
+    a.sys:hover,
+    a.sys:focus-visible {
+      color: var(--accent);
+      border-color: var(--accent);
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- SCENE_ID: l-glossary | LEADS_TO: l-accord8.html, ../relay-log.html, ../index.html | PASSCODE_IF_ANY: none -->
+  <main aria-labelledby="glossary-title">
+    <h1 id="glossary-title">OPERATOR GLOSSARY</h1>
+    <p class="subtitle">Lore // Language of the Network // Living Document</p>
+
+    <section aria-labelledby="solarpunk-heading">
+      <h2 id="solarpunk-heading">// SOLARPUNK DIALECT</h2>
+      <dl>
+        <dt>Rimaykullayki <span class="domain">Quechua-inspired</span></dt>
+        <dd>Warm greeting. An open door formed by community and sunlight. The language of the network begins here.</dd>
+
+        <dt>Yaku <span class="domain">Quechua-inspired</span></dt>
+        <dd>Water, flow. Routing data dynamically to nourish rather than extract.</dd>
+
+        <dt>Mana <span class="domain">Quechua-inspired</span></dt>
+        <dd>Boundary. A closed gate circle — the right to refuse, to protect, to hold a line.</dd>
+
+        <dt>Sulpayki <span class="domain">Quechua-inspired</span></dt>
+        <dd>Gratitude. Flower-cup receiving a drop of water. Spoken when a node carries your message forward.</dd>
+
+        <dt>Allillanmi <span class="domain">Quechua-inspired</span></dt>
+        <dd>Steady well-being. Nested circles with a calm center — the state of a healthy network.</dd>
+      </dl>
+    </section>
+
+    <section aria-labelledby="network-heading">
+      <h2 id="network-heading">// NETWORK TERMS</h2>
+      <dl>
+        <dt>Garden Mesh</dt>
+        <dd>Distributed frequency band used by cooperative agricultural communes. Warm, fragmented, community-operated.</dd>
+
+        <dt>Tower Spine</dt>
+        <dd>Upper-infrastructure relay channel. Colder, more official — prone to suppression and signal injection.</dd>
+
+        <dt>Convergence Node</dt>
+        <dd>Point where all channels meet at sunrise. An unstable braid of voices, alarms, and birdsong. Decisions made here propagate outward.</dd>
+
+        <dt>The Infinite Many</dt>
+        <dd>A stitched archive of many voices speaking as one. Not a person — a collective memory made transmissible.</dd>
+
+        <dt>Accord §8</dt>
+        <dd>The foundational protocol establishing that relay state is not stored by machine. See <a class="sys" href="l-accord8.html" style="font-size:inherit; padding:.1rem .3rem;">[ Accord §8 ]</a>.</dd>
+      </dl>
+    </section>
+
+    <section aria-labelledby="entities-heading">
+      <h2 id="entities-heading">// ENTITIES</h2>
+      <dl>
+        <dt>Verdant Collective</dt>
+        <dd>Agricultural think tank and data nexus. "Verdant" evokes growth and sustainability; "Collective" reflects communal networks and shared stewardship.</dd>
+
+        <dt>Axiom</dt>
+        <dd>An androgynous editorial figure. The hidden architect of resistance. References both geometric precision and foundational principles — the truths that govern in a post-truth landscape.</dd>
+
+        <dt>GNN — Global News Network</dt>
+        <dd>The dominant media infrastructure. Extractivist by design. Its terminals are also where the resistance hides.</dd>
+      </dl>
+    </section>
+
+    <p class="note">// This glossary grows as operators carry knowledge forward. Entries are not exhaustive.</p>
+
+    <footer>
+      <a class="sys" href="l-accord8.html">[ Accord §8 ]</a>
+      <a class="sys" href="../relay-log.html">[ Relay Log ]</a>
+      <a class="sys" href="../passcodes.html">[ Passcodes ]</a>
+      <a class="sys" href="../index.html">[ Cold Boot ]</a>
+    </footer>
+  </main>
+</body>
+</html>

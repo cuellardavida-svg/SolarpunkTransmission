@@ -1,6 +1,125 @@
 # Solarpunk Transmission — MVP Story Slice (Prototype v0.1)
 
 ## Goal
+
+Create a playable vertical slice with:
+- title screen (Cold Boot / `index.html`)
+- setup scene with a 2-way frequency choice
+- deeper branching within each frequency (2 sub-choices each)
+- convergence node with one 3-way player choice
+- distinct ending for each branch, each issuing a passcode
+
+This is intentionally small to prove tone, pacing, and interaction flow.
+
+---
+
+## Scene Index
+
+### Entry
+1. `index` — Cold Boot / title screen
+2. `c1-start` — Chapter 1 start, 2-way frequency choice
+
+### Garden Path
+3. `c1-choice-garden` — Garden Mesh hub
+4. `c1-garden-signal` — Civic warning sub-path
+5. `c1-garden-echo` — Familiar voice sub-path
+
+### Tower Path
+6. `c1-choice-tower` — Tower Spine hub
+7. `c1-tower-static` — Upper static sub-path
+8. `c1-tower-vault` — Vault handoff sub-path
+
+### Convergence & Endings
+9. `c1-converge` — Convergence Node (all paths meet here)
+10. `c1-ending-dawn` — Ending: Dawn Transmission (passcode: `SEED-SPARK-01`)
+11. `c1-ending-blackout` — Ending: Mercy Blackout (passcode: `EMBER-LATTICE-3`)
+12. `c1-ending-unauthorized` — Ending: Unauthorized Harmonic (passcode: `AURORA-NULL`)
+
+### Support
+- `c1-passcodes` — Chapter 1 passcode ledger
+- `passcodes` (root) — Global passcode index
+- `relay-log` — In-session operator scratch pad
+- `lore/l-glossary` — Living glossary (network terms, entities, dialect)
+- `lore/l-accord8` — Accord §8 full text (memory-by-design doctrine)
+
+---
+
+## Branch Map
+
+```
+index (Cold Boot)
+└── c1-start
+    ├── c1-choice-garden
+    │   ├── c1-garden-signal ──┐
+    │   └── c1-garden-echo ────┤
+    └── c1-choice-tower         ├─→ c1-converge
+        ├── c1-tower-static ───┤       ├── c1-ending-dawn
+        └── c1-tower-vault ────┘       ├── c1-ending-blackout
+                                       └── c1-ending-unauthorized
+```
+
+---
+
+## Cast
+
+### The Operator (Player)
+Signal apprentice navigating an unstable relay network at dawn.
+
+### The Infinite Many
+A stitched archive of many voices speaking as one. Not a person — a collective memory made transmissible. Encountered on the Garden Echo path.
+
+### The Cooperative Dispatcher
+Civic warning voice on the Garden Signal path. Repeats: *"Do not trust clean silence. Silence is being manufactured."*
+
+---
+
+## Parallel Narrative: GNN Terminal (Osha Honda Mansa)
+
+`solar_transition.html` is a fully standalone JavaScript-powered visual novel running inside a CRT-style GNN terminal. It features:
+- XP / Karma / Alignment tracking
+- Lore-locked dialogue choices (require specific Codex terms)
+- A branching story involving GNN researcher, Aurora (resistance hacker), and Axiom (editorial architect)
+- Discoverable terms: Rimaykullayki, Yaku, Mana, Mycelium, etc.
+- Cheat codes: `AXEHANDLE`, `TOJI`, `UTAHAGEN`
+
+This experience is accessible from `index.html` as a separate entry point.
+
+---
+
+## Tone + Writing Notes
+
+- Keep lines short and readable on small dialogue boxes.
+- Favor atmospheric details over exposition dumps.
+- Let mystery drive momentum; avoid full lore explanations in v0.1.
+- All paths converge at the same node — the divergence is *how* you arrive, not *where*.
+- End each ending branch with a clear emotional direction:
+  - Dawn = bold, public courage
+  - Blackout = quiet, protective survival
+  - Unauthorized = subversive, momentary clarity
+
+---
+
+## MVP Acceptance Checklist
+
+- [x] Cold Boot title screen (`index.html`) links to all entry points
+- [x] Chapter 1 start (`c1-start.html`) is playable
+- [x] 2-way frequency choice at `c1-start` routes to garden and tower hubs
+- [x] Garden path has 2 sub-choices, both routing to `c1-converge`
+- [x] Tower path has 2 sub-choices, both routing to `c1-converge`
+- [x] Convergence node has 3-way choice leading to 3 distinct endings
+- [x] Each ending issues a unique passcode
+- [x] Passcode ledger (`c1-passcodes.html`) lists all 3 codes
+- [x] Global passcode index (`passcodes.html`) cross-references codes
+- [x] Relay log (`relay-log.html`) provides session scratch pad
+- [x] Lore directory exists: `lore/l-glossary.html`, `lore/l-accord8.html`
+- [x] GNN Terminal (`solar_transition.html`) reachable from index
+- [x] All internal links resolve (no 404s)
+- [x] All `<main>` elements have `aria-labelledby`
+- [x] Footer navigation consistent across all chapter 1 scenes
+- [ ] Full run can be completed in under 5 minutes (unverified — estimated 2–3 min)
+
+
+## Goal
 Create a playable vertical slice with:
 - title screen
 - setup scene
