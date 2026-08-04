@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solarpunk Transmission // Cold Boot</title>
+  <style>
+    :root {
+      --bg: #0a0f0a;
+      --panel: #0d1610;
+      --fg: #d8ffe0;
+      --muted: #89b79a;
+      --accent: #7df9a7;
+      --warn: #ffd166;
+      --border: #2f5f43;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: "Courier New", Courier, monospace;
+      line-height: 1.65;
+      display: grid;
+      place-items: center;
+      padding: 1rem;
+    }
+
+    main {
+      width: min(920px, 100%);
+      border: 2px solid var(--border);
+      background: var(--panel);
+      padding: 1.5rem;
+      box-shadow: 0 0 0 4px rgba(125, 249, 167, 0.08);
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 0 0.3rem;
+      color: var(--accent);
+      font-size: clamp(1.4rem, 4vw, 2.4rem);
+      letter-spacing: 0.08em;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+      border-left: 3px solid var(--border);
+      padding-left: 0.7rem;
+      text-align: left;
+    }
+
+    .boot-log {
+      text-align: left;
+      border-top: 1px dashed var(--border);
+      border-bottom: 1px dashed var(--border);
+      padding: 1rem 0;
+      margin: 1.5rem 0;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .boot-log p { margin: 0.3rem 0; }
+
+    nav {
+      display: grid;
+      gap: 0.65rem;
+      margin-top: 1.5rem;
+    }
+
+    a.primary {
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      background: rgba(125, 249, 167, 0.05);
+      padding: 0.65rem 0.9rem;
+      display: block;
+      text-align: left;
+    }
+
+    a.primary:hover,
+    a.primary:focus-visible {
+      background: rgba(125, 249, 167, 0.13);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(125, 249, 167, 0.2);
+    }
+
+    .sys-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      justify-content: center;
+      margin-top: 1.5rem;
+      border-top: 1px dashed var(--border);
+      padding-top: 1rem;
+    }
+
+    a.sys {
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 0.4rem 0.6rem;
+      font-size: 0.85rem;
+      display: inline-block;
+    }
+
+    a.sys:hover,
+    a.sys:focus-visible {
+      color: var(--accent);
+      border-color: var(--accent);
+      outline: none;
+    }
+
+    .warn-note {
+      color: var(--warn);
+      font-size: 0.8rem;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- SCENE_ID: index | LEADS_TO: chapter1/c1-start.html, solar_transition.html, relay-log.html, passcodes.html | PASSCODE_IF_ANY: none -->
+  <main aria-labelledby="title">
+    <h1 id="title">SOLARPUNK TRANSMISSION</h1>
+    <p class="subtitle">Node: Cold Boot // Accord §8 Active // Logging: Disabled by Design</p>
+
+    <div class="boot-log" aria-label="Boot log">
+      <p>&gt; Initializing relay stack…</p>
+      <p>&gt; Memory cleared. No prior state detected.</p>
+      <p>&gt; Distributed trust protocol: ACTIVE</p>
+      <p>&gt; Two frequencies available. Choose entry point.</p>
+    </div>
+
+    <nav aria-label="Entry points">
+      <a class="primary" href="chapter1/c1-start.html">[ Chapter 1 // First Light Receiver ]</a>
+      <a class="primary" href="solar_transition.html">[ GNN Terminal // Osha Honda Mansa ]</a>
+    </nav>
+
+    <div class="sys-nav">
+      <a class="sys" href="relay-log.html">[ Relay Log ]</a>
+      <a class="sys" href="passcodes.html">[ Passcodes ]</a>
+      <a class="sys" href="lore/l-glossary.html">[ Glossary ]</a>
+      <a class="sys" href="lore/l-accord8.html">[ Accord §8 ]</a>
+    </div>
+
+    <p class="warn-note">// State is not retained between sessions. What you hold, you keep.</p>
+  </main>
+</body>
+</html>
